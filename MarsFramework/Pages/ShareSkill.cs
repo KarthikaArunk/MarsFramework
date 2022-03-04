@@ -192,10 +192,5 @@ namespace MarsFramework.Pages
 
             Save.Click();
         }
-
-        //internal void EditShareSkill()
-        //{
-            
-        //}
     }
 }

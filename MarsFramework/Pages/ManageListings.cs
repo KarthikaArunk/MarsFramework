@@ -42,8 +42,8 @@ namespace MarsFramework.Pages
         //private IWebElement edit { get; set; }
 
         //Edit the listing
-        [FindsBy(How = How.XPath, Using = "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[8]/div/button[2]/i")]
-        private IWebElement edit { get; set; }
+        //[FindsBy(How = How.XPath, Using = "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[8]/div/button[2]/i")]
+        //private IWebElement edit { get; set; }
 
         //Click on Yes or No
         [FindsBy(How = How.XPath, Using = "//div[@class='actions']")]
@@ -71,22 +71,6 @@ namespace MarsFramework.Pages
             view.Click();
         }
 
-        //internal void EditListings()
-        //{
-        //    //Populate the Excel Sheet
-        //    //GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ManageListings");
-
-        //    GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ShareSkill");
-
-        //    var waitmanagelist = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
-        //    waitmanagelist.Until(ExpectedConditions.ElementToBeClickable(manageListingsLink));
-
-        //    manageListingsLink.Click();
-        //    var waitedit = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(8));
-        //    waitedit.Until(ExpectedConditions.ElementToBeClickable(edit));
-        //    edit.Click();
-
-        //}
         internal void DeleteListings()
         {
             //Populate the Excel Sheet

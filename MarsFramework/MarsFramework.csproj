@@ -130,7 +130,6 @@
     <Compile Include="Pages\Profile.cs" />
     <Compile Include="Test\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Wait.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Config\MarsResource.resx">

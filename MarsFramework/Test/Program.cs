@@ -31,13 +31,6 @@ namespace MarsFramework
                 managelisting.Listings();
             }
 
-            //[Test, Order(3)]
-            //public void Test_EditListings()
-            //{
-            //    var editlisting = new ManageListings();
-            //    editlisting.EditListings();
-            //}
-
             [Test, Order(3)]
             public void Test_DeleteListing()
             {
