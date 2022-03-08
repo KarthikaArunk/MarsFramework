@@ -38,8 +38,8 @@ namespace MarsFramework.Pages
         private IWebElement delete { get; set; }
 
         //Edit the listing
-        //[FindsBy(How = How.XPath, Using = "(//i[@class='outline write icon'])[1]")]
-        //private IWebElement edit { get; set; }
+        [FindsBy(How = How.XPath, Using = "(//i[@class='outline write icon'])[1]")]
+        private IWebElement edit { get; set; }
 
         //Edit the listing
         //[FindsBy(How = How.XPath, Using = "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table/tbody/tr[1]/td[8]/div/button[2]/i")]
@@ -53,7 +53,19 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table")]
         private IWebElement ListingTable { get; set; }
 
-        internal void Listings()
+        //Select Credit
+        [FindsBy(How = How.XPath, Using = "//*[@id='service-listing-section']/div[2]/div/form/div[8]/div[2]/div/div[2]/div/input")]
+        private IWebElement Credit { get; set; }
+
+        //Enter the amount for Credit
+        [FindsBy(How = How.XPath, Using = "//input[@placeholder='Amount']")]
+        private IWebElement CreditAmount { get; set; }
+
+        //Click on Save button
+        [FindsBy(How = How.XPath, Using = "//input[@value='Save']")]
+        private IWebElement Save { get; set; }
+
+        internal void ViewListing()
         {
             //Populate the Excel Sheet
             //GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "ManageListings");
@@ -69,6 +81,33 @@ namespace MarsFramework.Pages
             waitview.Until(ExpectedConditions.ElementToBeClickable(view));
 
             view.Click();
+        }
+
+        internal void EditListing()
+        {
+            GlobalDefinitions.ExcelLib.PopulateInCollection(Base.ExcelPath, "EditSkill");
+
+            var waitmanagelist = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
+            waitmanagelist.Until(ExpectedConditions.ElementToBeClickable(manageListingsLink));
+
+            manageListingsLink.Click();
+
+            var waitskilltoedit = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
+            waitskilltoedit.Until(ExpectedConditions.ElementToBeClickable(edit));
+
+            var skilltoedit= GlobalDefinitions.ExcelLib.ReadData(2, "Title");
+            var editedcreditamountfromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "EditedCreditAmount");
+            var findrow = ListingTable.FindElement(By.XPath($"//td[text()='{skilltoedit}']/parent::tr"));
+            var editbutton = findrow.FindElement(By.XPath($"//td[8]//button[2]"));
+
+            editbutton.Click();
+
+            Credit.Click();
+            CreditAmount.SendKeys(editedcreditamountfromexcel);
+            Save.Click();   
+            
+
+         
         }
 
         internal void DeleteListings()
@@ -87,12 +126,20 @@ namespace MarsFramework.Pages
             waitdelete.Until(ExpectedConditions.ElementToBeClickable(delete));
 
             var skilltodeletefromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Title");
+            //var titledata=ListingTable.FindElement(By.)
             var tablerow = ListingTable.FindElement(By.XPath($"//td[text()='{skilltodeletefromexcel}']/parent::tr"));
             var deletebutton = tablerow.FindElement(By.XPath($"//td[8]//button[3]"));
-                        
-            deletebutton.Click();
-            var yesbutton = clickActionsButton.FindElement(By.CssSelector(".positive"));
-            yesbutton.Click();
+            //var titledata = tablerow.FindElement(By.XPath($"//td[3]"));
+            //if (skilltodeletefromexcel == titledata)
+            //{ 
+                deletebutton.Click();
+                var yesbutton = clickActionsButton.FindElement(By.CssSelector(".positive"));
+                yesbutton.Click();
+            //}
+            //else
+            //{
+            //    Assert.Fail("Skill to be deleted hasn't been found", "Skill not deleted");
+            //}
             
         }
     }

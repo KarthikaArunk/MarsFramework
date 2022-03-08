@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
 using MarsFramework.Global;
+using NUnit.Framework;
 
 namespace MarsFramework.Pages
 {
@@ -97,7 +98,11 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//input[@value='Save']")]
         private IWebElement Save { get; set; }
 
-        internal void EnterShareSkill()
+        //Storing the table of listings
+        [FindsBy(How = How.XPath, Using = "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table")]
+        private IWebElement ListingTable { get; set; }
+
+        internal void EnterShareSkill(int excelrow)
         {
             //Click on  ShareSkill Button
             var wait = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
@@ -108,32 +113,32 @@ namespace MarsFramework.Pages
             var waittitle = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(5));
             waittitle.Until(ExpectedConditions.ElementToBeClickable(Title));
 
-            var titledatafromexcel = GlobalDefinitions.ExcelLib.ReadData(2,"Title");
+            var titledatafromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Title");
             Title.SendKeys(titledatafromexcel);
 
             //Enter Description
-            var descriptiondatafromexcel = GlobalDefinitions.ExcelLib.ReadData(2,"Description");
+            var descriptiondatafromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Description");
             Description.SendKeys(descriptiondatafromexcel);
 
             //Select Category
             var waitcategory = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
             waitcategory.Until(ExpectedConditions.ElementToBeClickable(CategoryDropDown));
             
-            var categorydatafromexcel= GlobalDefinitions.ExcelLib.ReadData(2,"Category");
+            var categorydatafromexcel= GlobalDefinitions.ExcelLib.ReadData(excelrow, "Category");
             CategoryDropDown.SendKeys(categorydatafromexcel);           
 
             //Select subcategory
             var waitsubcategory = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
             waitsubcategory.Until(ExpectedConditions.ElementToBeClickable(SubCategoryDropDown));
 
-            var subcategorydatafromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "SubCategory");
+            var subcategorydatafromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "SubCategory");
             SubCategoryDropDown.SendKeys(subcategorydatafromexcel);
             
             //Enter Tags
             var waittags = new WebDriverWait(Global.GlobalDefinitions.driver, TimeSpan.FromSeconds(10));
             waittags.Until(ExpectedConditions.ElementToBeClickable(Tags));
                       
-            var tagsdatafromexcel=GlobalDefinitions.ExcelLib.ReadData(2,"Tags");
+            var tagsdatafromexcel=GlobalDefinitions.ExcelLib.ReadData(excelrow, "Tags");
             Tags.SendKeys(tagsdatafromexcel);
             Tags.SendKeys("\n");
 
@@ -146,15 +151,15 @@ namespace MarsFramework.Pages
             LocationTypeOption.Click();
 
             //Enter Startdate
-            var startdatefromexcel= GlobalDefinitions.ExcelLib.ReadData(2, "Startdate");
+            var startdatefromexcel= GlobalDefinitions.ExcelLib.ReadData(excelrow, "Startdate");
             StartDateDropDown.SendKeys(startdatefromexcel);
 
             //Enter Enddate
-            var enddatefromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Enddate");
+            var enddatefromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Enddate");
             EndDateDropDown.SendKeys(enddatefromexcel);
 
             //Enter Days
-            var daysdatafromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Selectday");
+            var daysdatafromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Selectday");
             var daycheckbox = Days.FindElement(By.XPath($"//label[text()='{daysdatafromexcel}']/preceding-sibling::input"));
             daycheckbox.Click();
 
@@ -162,12 +167,12 @@ namespace MarsFramework.Pages
             var parent = daylabel.FindElement(By.XPath("./parent::div/parent::div/parent::div"));
             
             //Enter StartTime
-            var starttimefromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Starttime");
+            var starttimefromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Starttime");
             StartTime = parent.FindElement(By.Name("StartTime"));
             StartTime.SendKeys(starttimefromexcel);
            
             //Enter Endtime
-            var endtimefromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Endtime");
+            var endtimefromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Endtime");
             EndTime = parent.FindElement(By.Name("EndTime"));
             EndTime.SendKeys(endtimefromexcel);                      
            
@@ -175,7 +180,7 @@ namespace MarsFramework.Pages
             SkillTradeOption.Click();
 
             //Enter SkillExchange Tag
-            var skillexchangetagdatafromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Skill-Exchange");
+            var skillexchangetagdatafromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "Skill-Exchange");
 
             SkillExchangeTag.SendKeys(skillexchangetagdatafromexcel);
             SkillExchangeTag.SendKeys("\n");
@@ -184,13 +189,27 @@ namespace MarsFramework.Pages
             Credit.Click();
 
             //Enter Credit Amount
-            var creditamountfromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "CreditAmount");
+            var creditamountfromexcel = GlobalDefinitions.ExcelLib.ReadData(excelrow, "CreditAmount");
             CreditAmount.SendKeys(creditamountfromexcel);
 
             //Select Active option
             ActiveOption.Click();
 
             Save.Click();
+            wait.Until(ExpectedConditions.ElementToBeClickable(ListingTable));
+            //var addedtitle= ListingTable.FindElement(By.XPath($"//td[3]text()]/parent::tr"));
+            var rows = ListingTable.FindElements(By.TagName("tr"));
+            var rowfound = false;
+            foreach (var row in rows)
+            {
+                if(row.FindElement(By.XPath("//td[3]")).Text == titledatafromexcel)
+                {
+                    rowfound = true;
+                    break;
+                }
+            }
+            Assert.IsTrue(rowfound,"Record added successfully");
+
         }
     }
 }

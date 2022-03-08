@@ -16,11 +16,15 @@ namespace MarsFramework
         {
 
             [Test, Order(1)]
+            [TestCase(2)]
+            [TestCase(3)]
+            [TestCase(4)]
+
                        
-            public void Test_Share_Skill()
+            public void Test_Share_Skill(int excelrow)
             {
                 var shareskill = new ShareSkill();
-                shareskill.EnterShareSkill();
+                shareskill.EnterShareSkill(excelrow);
             }
 
             [Test, Order(2)]
@@ -28,10 +32,18 @@ namespace MarsFramework
             public void Test_ViewListing()
             {
                 var managelisting = new ManageListings();
-                managelisting.Listings();
+                managelisting.ViewListing();
             }
 
             [Test, Order(3)]
+            public void Test_EditListing()
+            {
+                var managelisting = new ManageListings();
+                managelisting.EditListing();
+            }
+
+
+            [Test, Order(4)]
             public void Test_DeleteListing()
             {
                 var deletelisting = new ManageListings();
