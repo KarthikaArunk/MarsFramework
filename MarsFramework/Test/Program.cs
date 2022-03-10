@@ -25,6 +25,7 @@ namespace MarsFramework
             {
                 var shareskill = new ShareSkill();
                 shareskill.EnterShareSkill(excelrow);
+                //shareskill.EnterShareSkill2(excelrow);
             }
 
             [Test, Order(2)]
@@ -48,6 +49,14 @@ namespace MarsFramework
             {
                 var deletelisting = new ManageListings();
                 deletelisting.DeleteListings();
+            }
+
+            [Test, Order(5)]
+            [TestCase(5)]
+            public void Test_AddingNewSkillFailed(int excelrow)
+            {
+                var addnewskillfailed = new ShareSkill();
+                addnewskillfailed.AddingNewSkillFailed(excelrow);
             }
 
         }
