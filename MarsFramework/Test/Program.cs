@@ -19,13 +19,11 @@ namespace MarsFramework
             [TestCase(2)]
             [TestCase(3)]
             [TestCase(4)]
-
                        
             public void Test_Share_Skill(int excelrow)
             {
                 var shareskill = new ShareSkill();
                 shareskill.EnterShareSkill(excelrow);
-                //shareskill.EnterShareSkill2(excelrow);
             }
 
             [Test, Order(2)]

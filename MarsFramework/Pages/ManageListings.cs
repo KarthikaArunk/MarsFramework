@@ -161,7 +161,7 @@ namespace MarsFramework.Pages
             var skilltodeletefromexcel = GlobalDefinitions.ExcelLib.ReadData(2, "Title");
 
             IList<IWebElement> rows = ListingTable.FindElements(By.XPath("//tbody/tr"));
-            for(int i = 1;i <rows.Count;i++)
+            for (int i = 1; i < rows.Count; i++)
             {
                 var row = rows[i];
                 if (ListingTable.FindElement(By.XPath($"//tr[{i}]/td[3]")).Text == skilltodeletefromexcel)
@@ -179,7 +179,7 @@ namespace MarsFramework.Pages
             Thread.Sleep(2000);
             IList<IWebElement> updatedrows = ListingTable.FindElements(By.XPath("//tbody/tr"));
             var rowfound = false;
-            for (int i = 1;i<updatedrows.Count;i++)
+            for (int i = 1; i < updatedrows.Count; i++)
             {
                 if (ListingTable.FindElement(By.XPath($"//tr[{i}]/td[3]")).Text == skilltodeletefromexcel)
                 {
@@ -189,7 +189,7 @@ namespace MarsFramework.Pages
                 }
             }
             Assert.IsFalse(rowfound, "${skilltodeletefromexcel} deleted successfully");
-           
-        }                                
+        }         
+             
     }
 }

@@ -18,8 +18,6 @@ namespace MarsFramework.Pages
 
         //Click on ShareSkill Button
         [FindsBy(How = How.LinkText, Using = "Share Skill")]
-
-        //[FindsBy(How = How.XPath, Using = "//a[contains(text(),'Share Skill')]")]
         private IWebElement ShareSkillButton { get; set; }
 
         //Enter the Title in textbox
@@ -37,10 +35,6 @@ namespace MarsFramework.Pages
         //Click on SubCategory Dropdown
         [FindsBy(How = How.XPath, Using = "//*[@id='service-listing-section']/div[2]/div/form/div[3]/div[2]/div/div[2]/div[1]/select")]
         private IWebElement SubCategoryDropDown { get; set; }
-
-        //Enter Tag names in textbox
-        //[FindsBy(How = How.XPath, Using = "//body/div/div/div[@id='service-listing-section']/div[contains(@class,'ui container')]/div[contains(@class,'listing')]/form[contains(@class,'ui form')]/div[contains(@class,'tooltip-target ui grid')]/div[contains(@class,'twelve wide column')]/div[contains(@class,'')]/div[contains(@class,'ReactTags__tags')]/div[contains(@class,'ReactTags__selected')]/div[contains(@class,'ReactTags__tagInput')]/input[1]")]
-        //private IWebElement Tags { get; set; }
 
         //Enter Tag names in textbox
         [FindsBy(How = How.XPath, Using = "//*[@id='service-listing-section']/div[2]/div/form/div[4]/div[2]/div/div/div/div/input")]
@@ -86,7 +80,6 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//*[@id='service-listing-section']/div[2]/div/form/div[8]/div[2]/div/div[2]/div/input")]
         private IWebElement Credit { get; set; }
 
-
         //Enter the amount for Credit
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='Amount']")]
         private IWebElement CreditAmount { get; set; }
@@ -103,6 +96,7 @@ namespace MarsFramework.Pages
         [FindsBy(How = How.XPath, Using = "//*[@id='listing-management-section']/div[2]/div[1]/div[1]/table")]
         private IWebElement ListingTable { get; set; }
 
+        //Enter Skill Details
         internal void EnterShareSkill(int excelrow)
         {
             //Click on  ShareSkill Button
@@ -195,7 +189,6 @@ namespace MarsFramework.Pages
                 }
             }
             Assert.IsTrue(rowfound, "${titledatafromexcel} added successfully");
-
         }
 
         private string FillDataFromExcel(int excelrow, string columnName, IWebElement element)
@@ -224,6 +217,7 @@ namespace MarsFramework.Pages
 
              Save.Click();
 
+            //Assertion
             var categoryrequired = GlobalDefinitions.driver.FindElement(By.XPath("//*[@id='service-listing-section']/div[2]/div/form/div[3]/div[2]/div[2]"));
             Assert.That(categoryrequired.Text == "Category is required","Successful Test");          
         }
